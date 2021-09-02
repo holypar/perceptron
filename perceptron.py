@@ -12,10 +12,10 @@ def perceptron(threshold, adjustment, weights, examples, totalPasses):
         for example in examples:
             answer = example[0] # this is the True or False part of the example
             input = example[1] # this is the list part of the example
-            print(f"inputs:{input}")
+            print(f"inputs: {input}")
 
             prediction = checkExamples(threshold, example, weights)
-            print(f"prediction:{prediction} answer:{answer}")
+            print(f"prediction: {prediction} answer: {answer}")
 
             if (prediction != answer):
                 if (answer == True): # if should be true but is false
@@ -24,7 +24,7 @@ def perceptron(threshold, adjustment, weights, examples, totalPasses):
                 else: # if should be false but is true
                     adjustedWeightsDown = adjustDown(adjustment, input, weights)
                     weights = adjustedWeightsDown
-            print(f"adjusted weights:{weights}")
+            print(f"adjusted weights: {weights}")
     return
 
 # input: threshold, input list, weight list
@@ -32,15 +32,15 @@ def perceptron(threshold, adjustment, weights, examples, totalPasses):
 def checkExamples(threshold, example, weights):
     sum = 0
     for i in range(len(weights)):
-        sum += (example[i]*weights[i]) 
-    if sum > threshold:
+        
+        sum = sum + (example[1][i] * weights[i])
+    if (sum > threshold):
         return True
     else: 
         return False   #sum is less than threshold so its false
 
-
 # input: adjustment factor, input list, weight list
-# increases weight  by the given  adjustment for every time there is a 1 
+# increases weight  by the given  adjustment factor for every time there is a 1 in the input example
 # returns updated weights that are adjusted
 def adjustUp(adjustment, example, weights):
     for i in range(len(example)):
@@ -49,10 +49,12 @@ def adjustUp(adjustment, example, weights):
     return weights
 
 # input: adjustment factor, input list, weight list
-# decreases weight  by the given adjustment for every 1
+# decreases weight  by the given adjustment factor for every 1 in the input example
 # returns updated weights that are adjusted
 def adjustDown(adjustment, example, weights):
     for i in range(len(example)):
         if (example[i] == 1):
             weights[i] -= adjustment
     return weights
+
+    #perceptron(0.5,0.1,[-0.5, 0, 0.5, 0, -0.5],[[True,  [1,1,1,1,0]],[False, [1,1,1,1,1]],[False, [0,0,0,0,0]],[False, [0,0,1,1,0]],[False, [1,0,1,0,1]],[False, [1,0,1,0,0]],[False, [0,1,0,1,1]],[False,[0,1,0,1,0]],[False, [0,0,1,0,0]],[False, [0,0,0,1,0]]],4)
